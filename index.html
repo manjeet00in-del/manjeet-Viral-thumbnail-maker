@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Manjeet Viral Thumbnail Maker</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#0f0f0f;
+    color:white;
+}
+
+header{
+    text-align:center;
+    padding:22px 15px;
+    background:#181818;
+    border-bottom:1px solid #333;
+}
+
+header h1{
+    margin:0;
+    font-size:26px;
+}
+
+header p{
+    margin:7px 0 0;
+    color:#aaa;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:18px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:340px 1fr;
+    gap:18px;
+}
+
+.card{
+    background:#1b1b1b;
+    border:1px solid #333;
+    border-radius:16px;
+    padding:18px;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin:14px 0 7px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px;
+    border-radius:9px;
+    border:1px solid #444;
+    background:#101010;
+    color:white;
+    font-size:15px;
+}
+
+textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+button{
+    width:100%;
+    border:0;
+    border-radius:10px;
+    padding:13px;
+    margin-top:10px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    background:white;
+    color:#111;
+}
+
+button.secondary{
+    background:#333;
+    color:white;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+.styles{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+}
+
+#canvasWrap{
+    width:100%;
+    min-height:430px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:12px;
+    background:#080808;
+    border-radius:14px;
+    overflow:hidden;
+}
+
+canvas{
+    max-width:100%;
+    height:auto;
+    display:block;
+    box-shadow:0 10px 35px rgba(0,0,0,.7);
+}
+
+.actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:12px;
+}
+
+.info{
+    color:#999;
+    font-size:12px;
+    line-height:1.5;
+    margin-top:12px;
+}
+
+@media(max-width:800px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    #canvasWrap{
+        min-height:280px;
+    }
+
+    header h1{
+        font-size:22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<h1>🔥 Manjeet Viral Thumbnail Maker</h1>
+
+<p>YouTube • Instagram • Facebook</p>
+
+</header>
+
+
+<div class="container">
+
+<div class="grid">
+
+
+<!-- LEFT PANEL -->
+
+<div class="card">
+
+<label>📐 Platform / Size</label>
+
+<select id="size">
+
+<option value="youtube">
+YouTube Thumbnail — 1280 × 720
+</option>
+
+<option value="instagram">
+Instagram Post — 1080 × 1080
+</option>
+
+<option value="reel">
+Reels Cover — 1080 × 1920
+</option>
+
+<option value="facebook">
+Facebook Post — 1200 × 630
+</option>
+
+</select>
+
+
+<label>🖼️ Upload Photo</label>
+
+<input
+type="file"
+id="photo"
+accept="image/*"
+>
+
+
+<label>🔥 Main Headline</label>
+
+<textarea id="headline">10 करोड़ जीत गया! 😱</textarea>
+
+
+<label>✍️ Small Text</label>
+
+<input
+type="text"
+id="subtext"
+value="देखकर आप भी हैरान रह जाएंगे"
+>
+
+
+<label>🎨 Thumbnail Style</label>
+
+<div class="styles">
+
+<button onclick="setStyle('viral')">
+🔥 Viral
+</button>
+
+<button onclick="setStyle('clean')">
+✨ Clean
+</button>
+
+<button onclick="setStyle('news')">
+📰 News
+</button>
+
+<button onclick="setStyle('story')">
+🎬 Story
+</button>
+
+</div>
+
+
+<label>🌑 Background</label>
+
+<select id="background">
+
+<option value="dark">
+Dark Overlay
+</option>
+
+<option value="blur">
+Blur Background
+</option>
+
+<option value="normal">
+Normal Photo
+</option>
+
+</select>
+
+
+<button onclick="drawThumbnail()">
+👁️ Preview Thumbnail
+</button>
+
+
+<button
+class="secondary"
+onclick="resetMaker()"
+>
+🔄 Reset
+</button>
+
+
+<div class="info">
+
+यह version पूरी तरह browser में चलता है।
+<br><br>
+
+Photo और text आपके device पर ही process होते हैं।
+<br>
+
+किसी server या Render की जरूरत नहीं है।
+
+</div>
+
+</div>
+
+
+<!-- RIGHT PANEL -->
+
+<div class="card">
+
+<div id="canvasWrap">
+
+<canvas id="canvas"></canvas>
+
+</div>
+
+
+<div class="actions">
+
+<button onclick="downloadThumbnail()">
+📥 Download HD
+</button>
+
+<button
+class="secondary"
+onclick="shareThumbnail()"
+>
+📱 Share
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const canvas =
+document.getElementById("canvas");
+
+const ctx =
+canvas.getContext("2d");
+
+let uploadedImage = null;
+
+let currentStyle = "viral";
+
+
+/* IMAGE UPLOAD */
+
+document
+.getElementById("photo")
+.addEventListener("change", function(event){
+
+    const file =
+    event.target.files[0];
+
+    if(!file){
+
+        uploadedImage = null;
+
+        drawThumbnail();
+
+        return;
+    }
+
+    const reader =
+    new FileReader();
+
+    reader.onload = function(e){
+
+        uploadedImage =
+        new Image();
+
+        uploadedImage.onload =
+        function(){
+
+            drawThumbnail();
+
+        };
+
+        uploadedImage.src =
+        e.target.result;
+
+    };
+
+    reader.readAsDataURL(file);
+
+});
+
+
+/* AUTO PREVIEW */
+
+document
+.getElementById("size")
+.addEventListener(
+"change",
+drawThumbnail
+);
+
+document
+.getElementById("headline")
+.addEventListener(
+"input",
+drawThumbnail
+);
+
+document
+.getElementById("subtext")
+.addEventListener(
+"input",
+drawThumbnail
+);
+
+document
+.getElementById("background")
+.addEventListener(
+"change",
+drawThumbnail
+);
+
+
+/* SIZE */
+
+function getSize(){
+
+    const value =
+    document.getElementById("size").value;
+
+    if(value === "youtube"){
+
+        return [1280,720];
+
+    }
+
+    if(value === "instagram"){
+
+        return [1080,1080];
+
+    }
+
+    if(value === "reel"){
+
+        return [1080,1920];
+
+    }
+
+    return [1200,630];
+
+}
+
+
+/* STYLE */
+
+function setStyle(style){
+
+    currentStyle = style;
+
+    drawThumbnail();
+
+}
+
+
+/* IMAGE COVER */
+
+function drawCoverImage(
+image,
+width,
+height,
+blur
+){
+
+    const scale =
+    Math.max(
+        width / image.width,
+        height / image.height
+    );
+
+    const newWidth =
+    image.width * scale;
+
+    const newHeight =
+    image.height * scale;
+
+    const x =
+    (width - newWidth) / 2;
+
+    const y =
+    (height - newHeight) / 2;
+
+
+    if(blur){
+
+        ctx.save();
+
+        ctx.filter =
+        "blur(25px)";
+
+        ctx.drawImage(
+            image,
+            x,
+            y,
+            newWidth,
+            newHeight
+        );
+
+        ctx.restore();
+
+    }else{
+
+        ctx.drawImage(
+            image,
+            x,
+            y,
+            newWidth,
+            newHeight
+        );
+
+    }
+
+}
+
+
+/* TEXT WRAP */
+
+function wrapText(
+text,
+maxWidth
+){
+
+    const words =
+    text.split(/\s+/);
+
+    const lines = [];
+
+    let line = "";
+
+    for(
+        const word of words
+    ){
+
+        const test =
+        line
+        ?
+        line + " " + word
+        :
+        word;
+
+        if(
+            ctx.measureText(test).width
+            >
+            maxWidth
+            &&
+            line
+        ){
+
+            lines.push(line);
+
+            line = word;
+
+        }else{
+
+            line = test;
+
+        }
+
+    }
+
+    if(line){
+
+        lines.push(line);
+
+    }
+
+    return lines;
+
+}
+
+
+/* DRAW */
+
+function drawThumbnail(){
+
+    const [width,height] =
+    getSize();
+
+    canvas.width =
+    width;
+
+    canvas.height =
+    height;
+
+
+    /*
+       BACKGROUND
+    */
+
+    if(uploadedImage){
+
+        const bg =
+        document.getElementById(
+            "background"
+        ).value;
+
+        drawCoverImage(
+            uploadedImage,
+            width,
+            height,
+            bg === "blur"
+        );
+
+    }else{
+
+        ctx.fillStyle =
+        "#242424";
+
+        ctx.fillRect(
+            0,
+            0,
+            width,
+            height
+        );
+
+    }
+
+
+    /*
+       DARK OVERLAY
+    */
+
+    const gradient =
+    ctx.createLinearGradient(
+        0,
+        0,
+        0,
+        height
+    );
+
+    gradient.addColorStop(
+        0,
+        "rgba(0,0,0,0.05)"
+    );
+
+    gradient.addColorStop(
+        1,
+        "rgba(0,0,0,0.78)"
+    );
+
+    ctx.fillStyle =
+    gradient;
+
+    ctx.fillRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    /*
+       HEADLINE
+    */
+
+    const headline =
+    document
+    .getElementById(
+        "headline"
+    )
+    .value
+    .trim();
+
+
+    let fontSize =
+    Math.max(
+        48,
+        Math.min(
+            115,
+            width / 8
+        )
+    );
+
+
+    ctx.textAlign =
+    "center";
+
+    ctx.textBaseline =
+    "middle";
+
+
+    ctx.font =
+    "900 " +
+    fontSize +
+    "px Arial";
+
+
+    let lines =
+    wrapText(
+        headline,
+        width * 0.88
+    );
+
+
+    while(
+        lines.length > 4
+        &&
+        fontSize > 35
+    ){
+
+        fontSize -= 5;
+
+        ctx.font =
+        "900 " +
+        fontSize +
+        "px Arial";
+
+        lines =
+        wrapText(
+            headline,
+            width * 0.88
+        );
+
+    }
+
+
+    /*
+       STYLE COLORS
+    */
+
+    let fill =
+    "#ffe600";
+
+    let stroke =
+    "#000";
+
+    if(
+        currentStyle === "clean"
+    ){
+
+        fill =
+        "#ffffff";
+
+        stroke =
+        "#000000";
+
+    }
+
+    if(
+        currentStyle === "news"
+    ){
+
+        fill =
+        "#ffffff";
+
+        stroke =
+        "#d00000";
+
+    }
+
+    if(
+        currentStyle === "story"
+    ){
+
+        fill =
+        "#ffffff";
+
+        stroke =
+        "#111111";
+
+    }
+
+
+    ctx.fillStyle =
+    fill;
+
+    ctx.strokeStyle =
+    stroke;
+
+    ctx.lineWidth =
+    Math.max(
+        8,
+        width / 120
+    );
+
+
+    ctx.lineJoin =
+    "round";
+
+
+    ctx.shadowColor =
+    "rgba(0,0,0,.85)";
+
+    ctx.shadowBlur =
+    18;
+
+
+    const lineHeight =
+    fontSize * 1.02;
+
+    const totalHeight =
+    lines.length *
+    lineHeight;
+
+
+    const startY =
+    height * 0.62
+    -
+    totalHeight / 2;
+
+
+    lines.forEach(
+    function(line,index){
+
+        const y =
+        startY
+        +
+        index * lineHeight;
+
+
+        ctx.strokeText(
+            line,
+            width / 2,
+            y
+        );
+
+        ctx.fillText(
+            line,
+            width / 2,
+            y
+        );
+
+    });
+
+
+    ctx.shadowBlur =
+    0;
+
+
+    /*
+       SUB TEXT
+    */
+
+    const subtext =
+    document
+    .getElementById(
+        "subtext"
+    )
+    .value
+    .trim();
+
+
+    if(subtext){
+
+        const subY =
+        Math.min(
+            height - 60,
+            startY
+            +
+            totalHeight
+            +
+            50
+        );
+
+
+        ctx.font =
+        "700 " +
+        Math.max(
+            24,
+            width / 38
+        ) +
+        "px Arial";
+
+
+        ctx.fillStyle =
+        "#ffffff";
+
+        ctx.strokeStyle =
+        "#000000";
+
+        ctx.lineWidth =
+        5;
+
+
+        ctx.strokeText(
+            subtext,
+            width / 2,
+            subY
+        );
+
+        ctx.fillText(
+            subtext,
+            width / 2,
+            subY
+        );
+
+    }
+
+}
+
+
+/* DOWNLOAD */
+
+function downloadThumbnail(){
+
+    const link =
+    document.createElement("a");
+
+    link.download =
+    "manjeet-viral-thumbnail.png";
+
+    link.href =
+    canvas.toDataURL(
+        "image/png"
+    );
+
+    link.click();
+
+}
+
+
+/* SHARE */
+
+function shareThumbnail(){
+
+    canvas.toBlob(
+    async function(blob){
+
+        if(
+            navigator.share
+        ){
+
+            const file =
+            new File(
+                [blob],
+                "thumbnail.png",
+                {
+                    type:
+                    "image/png"
+                }
+            );
+
+            try{
+
+                await navigator.share({
+
+                    title:
+                    "My Thumbnail",
+
+                    files:
+                    [file]
+
+                });
+
+            }catch(error){}
+
+        }else{
+
+            alert(
+                "इस browser में direct Share उपलब्ध नहीं है। Download करके share करें।"
+            );
+
+        }
+
+    },
+    "image/png"
+    );
+
+}
+
+
+/* RESET */
+
+function resetMaker(){
+
+    document
+    .getElementById(
+        "photo"
+    )
+    .value = "";
+
+    document
+    .getElementById(
+        "headline"
+    )
+    .value =
+    "10 करोड़ जीत गया! 😱";
+
+    document
+    .getElementById(
+        "subtext"
+    )
+    .value =
+    "देखकर आप भी हैरान रह जाएंगे";
+
+    document
+    .getElementById(
+        "size"
+    )
+    .value =
+    "youtube";
+
+    document
+    .getElementById(
+        "background"
+    )
+    .value =
+    "dark";
+
+    currentStyle =
+    "viral";
+
+    uploadedImage =
+    null;
+
+    drawThumbnail();
+
+}
+
+
+/* FIRST PREVIEW */
+
+drawThumbnail();
+
+</script>
+
+</body>
+</html>
