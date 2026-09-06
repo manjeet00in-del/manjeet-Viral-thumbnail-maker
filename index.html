@@ -2,155 +2,143 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Manjeet Viral Thumbnail Maker</title>
 
 <style>
-*{
-    box-sizing:border-box;
-}
-
+*{box-sizing:border-box}
 body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#0f0f0f;
-    color:white;
+ margin:0;
+ background:#101010;
+ color:#fff;
+ font-family:Arial,sans-serif
 }
-
 header{
-    text-align:center;
-    padding:22px 15px;
-    background:#181818;
-    border-bottom:1px solid #333;
+ text-align:center;
+ padding:18px;
+ background:#181818;
+ border-bottom:1px solid #333
 }
-
-header h1{
-    margin:0;
-    font-size:26px;
-}
-
-header p{
-    margin:7px 0 0;
-    color:#aaa;
-}
+header h1{margin:0;font-size:25px}
+header p{margin:6px 0 0;color:#aaa}
 
 .container{
-    max-width:1100px;
-    margin:auto;
-    padding:18px;
+ max-width:1150px;
+ margin:auto;
+ padding:15px
 }
 
-.grid{
-    display:grid;
-    grid-template-columns:340px 1fr;
-    gap:18px;
+.editor{
+ display:grid;
+ grid-template-columns:350px 1fr;
+ gap:16px
 }
 
-.card{
-    background:#1b1b1b;
-    border:1px solid #333;
-    border-radius:16px;
-    padding:18px;
+.panel{
+ background:#1b1b1b;
+ border:1px solid #333;
+ border-radius:15px;
+ padding:16px
 }
 
 label{
-    display:block;
-    font-weight:bold;
-    margin:14px 0 7px;
+ display:block;
+ font-weight:bold;
+ margin:13px 0 6px
 }
 
-input,
-select,
-textarea{
-    width:100%;
-    padding:12px;
-    border-radius:9px;
-    border:1px solid #444;
-    background:#101010;
-    color:white;
-    font-size:15px;
+input,select,textarea{
+ width:100%;
+ padding:11px;
+ border-radius:8px;
+ border:1px solid #444;
+ background:#0d0d0d;
+ color:#fff;
+ font-size:15px
 }
 
-textarea{
-    min-height:90px;
-    resize:vertical;
+input[type=color]{
+ height:45px;
+ padding:3px
 }
+
+input[type=range]{padding:0}
+
+textarea{min-height:75px}
 
 button{
-    width:100%;
-    border:0;
-    border-radius:10px;
-    padding:13px;
-    margin-top:10px;
-    font-size:15px;
-    font-weight:bold;
-    cursor:pointer;
-    background:white;
-    color:#111;
+ width:100%;
+ border:0;
+ border-radius:9px;
+ padding:12px;
+ margin-top:9px;
+ font-weight:bold;
+ cursor:pointer;
+ background:#fff;
+ color:#111
 }
 
-button.secondary{
-    background:#333;
-    color:white;
-}
-
-button:hover{
-    opacity:.9;
+button.dark{
+ background:#333;
+ color:#fff
 }
 
 .styles{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:7px
 }
 
-#canvasWrap{
-    width:100%;
-    min-height:430px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:12px;
-    background:#080808;
-    border-radius:14px;
-    overflow:hidden;
+.styles button{
+ margin:0;
+ font-size:13px
+}
+
+.row{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px
+}
+
+.canvas-area{
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ min-height:550px;
+ background:#070707;
+ border-radius:15px;
+ padding:15px;
+ overflow:hidden
 }
 
 canvas{
-    max-width:100%;
-    height:auto;
-    display:block;
-    box-shadow:0 10px 35px rgba(0,0,0,.7);
+ max-width:100%;
+ max-height:75vh;
+ width:auto;
+ height:auto;
+ display:block;
+ box-shadow:0 10px 35px rgba(0,0,0,.7);
+ touch-action:none
 }
 
-.actions{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-    margin-top:12px;
+.download{
+ margin-top:12px;
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:10px
 }
 
 .info{
-    color:#999;
-    font-size:12px;
-    line-height:1.5;
-    margin-top:12px;
+ color:#999;
+ font-size:12px;
+ line-height:1.5;
+ margin-top:12px
 }
 
-@media(max-width:800px){
-
-    .grid{
-        grid-template-columns:1fr;
-    }
-
-    #canvasWrap{
-        min-height:280px;
-    }
-
-    header h1{
-        font-size:22px;
-    }
+@media(max-width:850px){
+ .editor{grid-template-columns:1fr}
+ .canvas-area{min-height:300px}
+ canvas{max-height:60vh}
 }
 </style>
 </head>
@@ -158,51 +146,33 @@ canvas{
 <body>
 
 <header>
-
 <h1>🔥 Manjeet Viral Thumbnail Maker</h1>
-
 <p>YouTube • Instagram • Facebook</p>
-
 </header>
-
 
 <div class="container">
 
-<div class="grid">
+<div class="editor">
 
+<!-- CONTROL PANEL -->
 
-<!-- LEFT PANEL -->
+<div class="panel">
 
-<div class="card">
+<label>📐 Platform</label>
 
-<label>📐 Platform / Size</label>
-
-<select id="size">
-
-<option value="youtube">
-YouTube Thumbnail — 1280 × 720
-</option>
-
-<option value="instagram">
-Instagram Post — 1080 × 1080
-</option>
-
-<option value="reel">
-Reels Cover — 1080 × 1920
-</option>
-
-<option value="facebook">
-Facebook Post — 1200 × 630
-</option>
-
+<select id="platform">
+<option value="youtube">YouTube — 1280 × 720</option>
+<option value="instagram">Instagram — 1080 × 1080</option>
+<option value="reels">Reels — 1080 × 1920</option>
+<option value="facebook">Facebook — 1200 × 630</option>
 </select>
 
 
 <label>🖼️ Upload Photo</label>
 
 <input
-type="file"
 id="photo"
+type="file"
 accept="image/*"
 >
 
@@ -215,103 +185,168 @@ accept="image/*"
 <label>✍️ Small Text</label>
 
 <input
-type="text"
 id="subtext"
 value="देखकर आप भी हैरान रह जाएंगे"
 >
 
 
-<label>🎨 Thumbnail Style</label>
+<label>🎨 Style</label>
 
 <div class="styles">
 
-<button onclick="setStyle('viral')">
+<button onclick="stylePreset('viral')">
 🔥 Viral
 </button>
 
-<button onclick="setStyle('clean')">
-✨ Clean
+<button onclick="stylePreset('cinematic')">
+🎬 Cinematic
 </button>
 
-<button onclick="setStyle('news')">
-📰 News
+<button onclick="stylePreset('news')">
+📰 Breaking
 </button>
 
-<button onclick="setStyle('story')">
-🎬 Story
+<button onclick="stylePreset('shock')">
+😱 Shocking
+</button>
+
+<button onclick="stylePreset('money')">
+💰 Money
+</button>
+
+<button onclick="stylePreset('trending')">
+❤️ Trending
+</button>
+
+<button onclick="stylePreset('horror')">
+👻 Horror
+</button>
+
+<button onclick="stylePreset('gaming')">
+🎮 Gaming
 </button>
 
 </div>
 
 
-<label>🌑 Background</label>
+<label>🔤 Text Size</label>
 
-<select id="background">
-
-<option value="dark">
-Dark Overlay
-</option>
-
-<option value="blur">
-Blur Background
-</option>
-
-<option value="normal">
-Normal Photo
-</option>
-
-</select>
-
-
-<button onclick="drawThumbnail()">
-👁️ Preview Thumbnail
-</button>
-
-
-<button
-class="secondary"
-onclick="resetMaker()"
+<input
+id="textSize"
+type="range"
+min="30"
+max="150"
+value="85"
 >
+
+
+<label>🎨 Text Color</label>
+
+<input
+id="textColor"
+type="color"
+value="#ffe600"
+>
+
+
+<label>⭕ Outline</label>
+
+<input
+id="outline"
+type="range"
+min="0"
+max="25"
+value="10"
+>
+
+
+<label>🌑 Shadow</label>
+
+<input
+id="shadow"
+type="range"
+min="0"
+max="40"
+value="18"
+>
+
+
+<label>🔍 Photo Zoom</label>
+
+<input
+id="zoom"
+type="range"
+min="100"
+max="200"
+value="100"
+>
+
+
+<label>↔️ Photo Horizontal</label>
+
+<input
+id="photoX"
+type="range"
+min="-100"
+max="100"
+value="0"
+>
+
+
+<label>↕️ Photo Vertical</label>
+
+<input
+id="photoY"
+type="range"
+min="-100"
+max="100"
+value="0"
+>
+
+
+<div class="row">
+
+<button onclick="resetAll()">
 🔄 Reset
 </button>
 
+<button class="dark" onclick="draw()">
+👁️ Preview
+</button>
+
+</div>
 
 <div class="info">
 
-यह version पूरी तरह browser में चलता है।
+💡 Canvas पर headline को finger/mouse से drag करके उसकी position बदल सकते हैं।
+
 <br><br>
 
-Photo और text आपके device पर ही process होते हैं।
-<br>
-
-किसी server या Render की जरूरत नहीं है।
+यह पूरा editor browser में चलता है।
+Server या Render की जरूरत नहीं।
 
 </div>
 
 </div>
 
 
-<!-- RIGHT PANEL -->
+<!-- CANVAS -->
 
-<div class="card">
+<div class="panel">
 
-<div id="canvasWrap">
+<div class="canvas-area">
 
 <canvas id="canvas"></canvas>
 
 </div>
 
+<div class="download">
 
-<div class="actions">
-
-<button onclick="downloadThumbnail()">
+<button onclick="downloadPNG()">
 📥 Download HD
 </button>
 
-<button
-class="secondary"
-onclick="shareThumbnail()"
->
+<button class="dark" onclick="shareImage()">
 📱 Share
 </button>
 
@@ -332,684 +367,741 @@ document.getElementById("canvas");
 const ctx =
 canvas.getContext("2d");
 
-let uploadedImage = null;
+let image=null;
 
-let currentStyle = "viral";
+let textX=0.5;
+
+let textY=0.62;
+
+let dragging=false;
 
 
-/* IMAGE UPLOAD */
+/* IMAGE */
 
 document
 .getElementById("photo")
-.addEventListener("change", function(event){
+.addEventListener(
+"change",
+function(e){
 
-    const file =
-    event.target.files[0];
+ const file=e.target.files[0];
 
-    if(!file){
+ if(!file)return;
 
-        uploadedImage = null;
+ const reader=new FileReader();
 
-        drawThumbnail();
+ reader.onload=function(event){
 
-        return;
-    }
+  image=new Image();
 
-    const reader =
-    new FileReader();
+  image.onload=function(){
 
-    reader.onload = function(e){
+   draw();
 
-        uploadedImage =
-        new Image();
+  };
 
-        uploadedImage.onload =
-        function(){
+  image.src=event.target.result;
 
-            drawThumbnail();
+ };
 
-        };
-
-        uploadedImage.src =
-        e.target.result;
-
-    };
-
-    reader.readAsDataURL(file);
+ reader.readAsDataURL(file);
 
 });
 
 
-/* AUTO PREVIEW */
+/* LIVE CONTROLS */
 
-document
-.getElementById("size")
-.addEventListener(
-"change",
-drawThumbnail
-);
+[
+"platform",
+"headline",
+"subtext",
+"textSize",
+"textColor",
+"outline",
+"shadow",
+"zoom",
+"photoX",
+"photoY"
+].forEach(function(id){
 
-document
-.getElementById("headline")
-.addEventListener(
-"input",
-drawThumbnail
-);
+ document
+ .getElementById(id)
+ .addEventListener(
+ "input",
+ draw
+ );
 
-document
-.getElementById("subtext")
-.addEventListener(
-"input",
-drawThumbnail
-);
-
-document
-.getElementById("background")
-.addEventListener(
-"change",
-drawThumbnail
-);
+});
 
 
 /* SIZE */
 
 function getSize(){
 
-    const value =
-    document.getElementById("size").value;
+ const p=
+ document.getElementById(
+ "platform"
+ ).value;
 
-    if(value === "youtube"){
+ if(p==="youtube")
+  return [1280,720];
 
-        return [1280,720];
+ if(p==="instagram")
+  return [1080,1080];
 
-    }
+ if(p==="reels")
+  return [1080,1920];
 
-    if(value === "instagram"){
-
-        return [1080,1080];
-
-    }
-
-    if(value === "reel"){
-
-        return [1080,1920];
-
-    }
-
-    return [1200,630];
+ return [1200,630];
 
 }
 
 
-/* STYLE */
+/* IMAGE */
 
-function setStyle(style){
+function drawImage(){
 
-    currentStyle = style;
+ if(!image){
 
-    drawThumbnail();
+  ctx.fillStyle="#252525";
 
-}
+  ctx.fillRect(
+   0,
+   0,
+   canvas.width,
+   canvas.height
+  );
 
+  return;
 
-/* IMAGE COVER */
+ }
 
-function drawCoverImage(
-image,
-width,
-height,
-blur
-){
+ const w=canvas.width;
+ const h=canvas.height;
 
-    const scale =
-    Math.max(
-        width / image.width,
-        height / image.height
-    );
+ const zoom=
+ Number(
+ document.getElementById("zoom").value
+ )/100;
 
-    const newWidth =
-    image.width * scale;
+ const px=
+ Number(
+ document.getElementById("photoX").value
+ );
 
-    const newHeight =
-    image.height * scale;
+ const py=
+ Number(
+ document.getElementById("photoY").value
+ );
 
-    const x =
-    (width - newWidth) / 2;
+ const scale=
+ Math.max(
+  w/image.width,
+  h/image.height
+ )*zoom;
 
-    const y =
-    (height - newHeight) / 2;
+ const iw=image.width*scale;
+ const ih=image.height*scale;
 
+ const x=
+ (w-iw)/2
+ +
+ px*(w/200);
 
-    if(blur){
+ const y=
+ (h-ih)/2
+ +
+ py*(h/200);
 
-        ctx.save();
-
-        ctx.filter =
-        "blur(25px)";
-
-        ctx.drawImage(
-            image,
-            x,
-            y,
-            newWidth,
-            newHeight
-        );
-
-        ctx.restore();
-
-    }else{
-
-        ctx.drawImage(
-            image,
-            x,
-            y,
-            newWidth,
-            newHeight
-        );
-
-    }
-
-}
-
-
-/* TEXT WRAP */
-
-function wrapText(
-text,
-maxWidth
-){
-
-    const words =
-    text.split(/\s+/);
-
-    const lines = [];
-
-    let line = "";
-
-    for(
-        const word of words
-    ){
-
-        const test =
-        line
-        ?
-        line + " " + word
-        :
-        word;
-
-        if(
-            ctx.measureText(test).width
-            >
-            maxWidth
-            &&
-            line
-        ){
-
-            lines.push(line);
-
-            line = word;
-
-        }else{
-
-            line = test;
-
-        }
-
-    }
-
-    if(line){
-
-        lines.push(line);
-
-    }
-
-    return lines;
+ ctx.drawImage(
+  image,
+  x,
+  y,
+  iw,
+  ih
+ );
 
 }
 
 
 /* DRAW */
 
-function drawThumbnail(){
+function draw(){
 
-    const [width,height] =
-    getSize();
+ const [w,h]=getSize();
 
-    canvas.width =
-    width;
+ canvas.width=w;
+ canvas.height=h;
 
-    canvas.height =
-    height;
+ ctx.clearRect(
+  0,
+  0,
+  w,
+  h
+ );
 
 
-    /*
-       BACKGROUND
-    */
+ /* PHOTO */
 
-    if(uploadedImage){
+ drawImage();
 
-        const bg =
-        document.getElementById(
-            "background"
-        ).value;
 
-        drawCoverImage(
-            uploadedImage,
-            width,
-            height,
-            bg === "blur"
-        );
+ /* DARK GRADIENT */
 
-    }else{
+ const gradient=
+ ctx.createLinearGradient(
+  0,
+  0,
+  0,
+  h
+ );
 
-        ctx.fillStyle =
-        "#242424";
+ gradient.addColorStop(
+  0,
+  "rgba(0,0,0,.08)"
+ );
 
-        ctx.fillRect(
-            0,
-            0,
-            width,
-            height
-        );
+ gradient.addColorStop(
+  .55,
+  "rgba(0,0,0,.15)"
+ );
 
-    }
+ gradient.addColorStop(
+  1,
+  "rgba(0,0,0,.75)"
+ );
 
+ ctx.fillStyle=gradient;
 
-    /*
-       DARK OVERLAY
-    */
+ ctx.fillRect(
+  0,
+  0,
+  w,
+  h
+ );
 
-    const gradient =
-    ctx.createLinearGradient(
-        0,
-        0,
-        0,
-        height
-    );
 
-    gradient.addColorStop(
-        0,
-        "rgba(0,0,0,0.05)"
-    );
+ /* HEADLINE */
 
-    gradient.addColorStop(
-        1,
-        "rgba(0,0,0,0.78)"
-    );
+ const text=
+ document
+ .getElementById("headline")
+ .value
+ .trim();
 
-    ctx.fillStyle =
-    gradient;
+ const size=
+ Number(
+ document
+ .getElementById("textSize")
+ .value
+ );
 
-    ctx.fillRect(
-        0,
-        0,
-        width,
-        height
-    );
+ ctx.font=
+ "900 "+size+"px Arial";
 
+ ctx.textAlign="center";
 
-    /*
-       HEADLINE
-    */
+ ctx.textBaseline="middle";
 
-    const headline =
-    document
-    .getElementById(
-        "headline"
-    )
-    .value
-    .trim();
+ ctx.fillStyle=
+ document
+ .getElementById("textColor")
+ .value;
 
+ ctx.strokeStyle="#000";
 
-    let fontSize =
-    Math.max(
-        48,
-        Math.min(
-            115,
-            width / 8
-        )
-    );
+ ctx.lineWidth=
+ Number(
+ document
+ .getElementById("outline")
+ .value
+ );
 
+ ctx.shadowColor=
+ "rgba(0,0,0,.9)";
 
-    ctx.textAlign =
-    "center";
+ ctx.shadowBlur=
+ Number(
+ document
+ .getElementById("shadow")
+ .value
+ );
 
-    ctx.textBaseline =
-    "middle";
 
+ /* WRAP */
 
-    ctx.font =
-    "900 " +
-    fontSize +
-    "px Arial";
+ const words=text.split(/\s+/);
 
+ let lines=[];
 
-    let lines =
-    wrapText(
-        headline,
-        width * 0.88
-    );
+ let line="";
 
+ const maxWidth=w*.88;
 
-    while(
-        lines.length > 4
-        &&
-        fontSize > 35
-    ){
+ words.forEach(function(word){
 
-        fontSize -= 5;
+  const test=
+  line
+  ?
+  line+" "+word
+  :
+  word;
 
-        ctx.font =
-        "900 " +
-        fontSize +
-        "px Arial";
+  if(
+   ctx.measureText(test).width
+   >
+   maxWidth
+   &&
+   line
+  ){
 
-        lines =
-        wrapText(
-            headline,
-            width * 0.88
-        );
+   lines.push(line);
 
-    }
+   line=word;
 
+  }else{
 
-    /*
-       STYLE COLORS
-    */
+   line=test;
 
-    let fill =
-    "#ffe600";
+  }
 
-    let stroke =
-    "#000";
+ });
 
-    if(
-        currentStyle === "clean"
-    ){
+ if(line)
+  lines.push(line);
 
-        fill =
-        "#ffffff";
 
-        stroke =
-        "#000000";
+ const lineHeight=
+ size*1.05;
 
-    }
+ const total=
+ lines.length*
+ lineHeight;
 
-    if(
-        currentStyle === "news"
-    ){
+ let centerY=
+ textY*h;
 
-        fill =
-        "#ffffff";
 
-        stroke =
-        "#d00000";
+ lines.forEach(function(line,index){
 
-    }
+  const y=
+  centerY
+  -
+  total/2
+  +
+  index*lineHeight;
 
-    if(
-        currentStyle === "story"
-    ){
+  ctx.strokeText(
+   line,
+   textX*w,
+   y
+  );
 
-        fill =
-        "#ffffff";
+  ctx.fillText(
+   line,
+   textX*w,
+   y
+  );
 
-        stroke =
-        "#111111";
+ });
 
-    }
 
+ ctx.shadowBlur=0;
 
-    ctx.fillStyle =
-    fill;
 
-    ctx.strokeStyle =
-    stroke;
+ /* SUBTEXT */
 
-    ctx.lineWidth =
-    Math.max(
-        8,
-        width / 120
-    );
+ const sub=
+ document
+ .getElementById("subtext")
+ .value
+ .trim();
 
+ if(sub){
 
-    ctx.lineJoin =
-    "round";
+  ctx.font=
+  "700 "+
+  Math.max(
+   24,
+   w/38
+  )+
+  "px Arial";
 
+  ctx.fillStyle="#fff";
 
-    ctx.shadowColor =
-    "rgba(0,0,0,.85)";
+  ctx.strokeStyle="#000";
 
-    ctx.shadowBlur =
-    18;
+  ctx.lineWidth=5;
 
+  ctx.strokeText(
+   sub,
+   w/2,
+   Math.min(
+    h-55,
+    centerY+
+    total/2+
+    45
+   )
+  );
 
-    const lineHeight =
-    fontSize * 1.02;
+  ctx.fillText(
+   sub,
+   w/2,
+   Math.min(
+    h-55,
+    centerY+
+    total/2+
+    45
+   )
+  );
 
-    const totalHeight =
-    lines.length *
-    lineHeight;
+ }
 
+}
 
-    const startY =
-    height * 0.62
-    -
-    totalHeight / 2;
 
+/* DRAG TEXT */
 
-    lines.forEach(
-    function(line,index){
+function pointerPosition(e){
 
-        const y =
-        startY
-        +
-        index * lineHeight;
+ const rect=
+ canvas.getBoundingClientRect();
 
+ const clientX=
+ e.touches
+ ?
+ e.touches[0].clientX
+ :
+ e.clientX;
 
-        ctx.strokeText(
-            line,
-            width / 2,
-            y
-        );
+ const clientY=
+ e.touches
+ ?
+ e.touches[0].clientY
+ :
+ e.clientY;
 
-        ctx.fillText(
-            line,
-            width / 2,
-            y
-        );
+ return {
 
-    });
+  x:
+  (clientX-rect.left)
+  /
+  rect.width,
 
+  y:
+  (clientY-rect.top)
+  /
+  rect.height
 
-    ctx.shadowBlur =
-    0;
+ };
 
+}
 
-    /*
-       SUB TEXT
-    */
 
-    const subtext =
-    document
-    .getElementById(
-        "subtext"
-    )
-    .value
-    .trim();
+canvas.addEventListener(
+"mousedown",
+function(e){
 
+ dragging=true;
 
-    if(subtext){
+ moveText(e);
 
-        const subY =
-        Math.min(
-            height - 60,
-            startY
-            +
-            totalHeight
-            +
-            50
-        );
+});
 
 
-        ctx.font =
-        "700 " +
-        Math.max(
-            24,
-            width / 38
-        ) +
-        "px Arial";
+canvas.addEventListener(
+"mousemove",
+function(e){
 
+ if(dragging)
+  moveText(e);
 
-        ctx.fillStyle =
-        "#ffffff";
+});
 
-        ctx.strokeStyle =
-        "#000000";
 
-        ctx.lineWidth =
-        5;
+window.addEventListener(
+"mouseup",
+function(){
 
+ dragging=false;
 
-        ctx.strokeText(
-            subtext,
-            width / 2,
-            subY
-        );
+});
 
-        ctx.fillText(
-            subtext,
-            width / 2,
-            subY
-        );
 
-    }
+canvas.addEventListener(
+"touchstart",
+function(e){
+
+ dragging=true;
+
+ moveText(e);
+
+ e.preventDefault();
+
+},
+{passive:false}
+);
+
+
+canvas.addEventListener(
+"touchmove",
+function(e){
+
+ if(dragging)
+  moveText(e);
+
+ e.preventDefault();
+
+},
+{passive:false}
+);
+
+
+window.addEventListener(
+"touchend",
+function(){
+
+ dragging=false;
+
+});
+
+
+function moveText(e){
+
+ const p=
+ pointerPosition(e);
+
+ textX=
+ Math.max(
+  .05,
+  Math.min(
+   .95,
+   p.x
+  )
+ );
+
+ textY=
+ Math.max(
+  .08,
+  Math.min(
+   .92,
+   p.y
+  )
+ );
+
+ draw();
+
+}
+
+
+/* STYLE PRESETS */
+
+function stylePreset(style){
+
+ const color=
+ document.getElementById(
+  "textColor"
+ );
+
+ const outline=
+ document.getElementById(
+  "outline"
+ );
+
+ const shadow=
+ document.getElementById(
+  "shadow"
+ );
+
+ if(style==="viral"){
+
+  color.value="#ffe600";
+  outline.value=12;
+  shadow.value=20;
+
+ }
+
+ if(style==="cinematic"){
+
+  color.value="#ffffff";
+  outline.value=7;
+  shadow.value=28;
+
+ }
+
+ if(style==="news"){
+
+  color.value="#ffffff";
+  outline.value=14;
+  shadow.value=15;
+
+ }
+
+ if(style==="shock"){
+
+  color.value="#ff3030";
+  outline.value=15;
+  shadow.value=30;
+
+ }
+
+ if(style==="money"){
+
+  color.value="#ffd700";
+  outline.value=10;
+  shadow.value=24;
+
+ }
+
+ if(style==="trending"){
+
+  color.value="#ff4f9a";
+  outline.value=9;
+  shadow.value=22;
+
+ }
+
+ if(style==="horror"){
+
+  color.value="#ff1f1f";
+  outline.value=16;
+  shadow.value=35;
+
+ }
+
+ if(style==="gaming"){
+
+  color.value="#00ffcc";
+  outline.value=13;
+  shadow.value=30;
+
+ }
+
+ draw();
 
 }
 
 
 /* DOWNLOAD */
 
-function downloadThumbnail(){
+function downloadPNG(){
 
-    const link =
-    document.createElement("a");
+ const link=
+ document.createElement("a");
 
-    link.download =
-    "manjeet-viral-thumbnail.png";
+ link.download=
+ "manjeet-viral-thumbnail.png";
 
-    link.href =
-    canvas.toDataURL(
-        "image/png"
-    );
+ link.href=
+ canvas.toDataURL(
+  "image/png"
+ );
 
-    link.click();
+ link.click();
 
 }
 
 
 /* SHARE */
 
-function shareThumbnail(){
+function shareImage(){
 
-    canvas.toBlob(
-    async function(blob){
+ canvas.toBlob(
+ async function(blob){
 
-        if(
-            navigator.share
-        ){
+  if(!navigator.share){
 
-            const file =
-            new File(
-                [blob],
-                "thumbnail.png",
-                {
-                    type:
-                    "image/png"
-                }
-            );
+   alert(
+    "Direct Share उपलब्ध नहीं है। Download करके share करें।"
+   );
 
-            try{
+   return;
 
-                await navigator.share({
+  }
 
-                    title:
-                    "My Thumbnail",
+  const file=
+  new File(
+   [blob],
+   "thumbnail.png",
+   {
+    type:"image/png"
+   }
+  );
 
-                    files:
-                    [file]
+  try{
 
-                });
+   await navigator.share({
 
-            }catch(error){}
+    title:
+    "Manjeet Viral Thumbnail",
 
-        }else{
+    files:[file]
 
-            alert(
-                "इस browser में direct Share उपलब्ध नहीं है। Download करके share करें।"
-            );
+   });
 
-        }
+  }catch(e){}
 
-    },
-    "image/png"
-    );
+ },
+ "image/png"
+ );
 
 }
 
 
 /* RESET */
 
-function resetMaker(){
+function resetAll(){
 
-    document
-    .getElementById(
-        "photo"
-    )
-    .value = "";
+ document
+ .getElementById("headline")
+ .value=
+ "10 करोड़ जीत गया! 😱";
 
-    document
-    .getElementById(
-        "headline"
-    )
-    .value =
-    "10 करोड़ जीत गया! 😱";
+ document
+ .getElementById("subtext")
+ .value=
+ "देखकर आप भी हैरान रह जाएंगे";
 
-    document
-    .getElementById(
-        "subtext"
-    )
-    .value =
-    "देखकर आप भी हैरान रह जाएंगे";
+ document
+ .getElementById("textSize")
+ .value=85;
 
-    document
-    .getElementById(
-        "size"
-    )
-    .value =
-    "youtube";
+ document
+ .getElementById("textColor")
+ .value="#ffe600";
 
-    document
-    .getElementById(
-        "background"
-    )
-    .value =
-    "dark";
+ document
+ .getElementById("outline")
+ .value=10;
 
-    currentStyle =
-    "viral";
+ document
+ .getElementById("shadow")
+ .value=18;
 
-    uploadedImage =
-    null;
+ document
+ .getElementById("zoom")
+ .value=100;
 
-    drawThumbnail();
+ document
+ .getElementById("photoX")
+ .value=0;
+
+ document
+ .getElementById("photoY")
+ .value=0;
+
+ textX=.5;
+
+ textY=.62;
+
+ draw();
 
 }
 
 
-/* FIRST PREVIEW */
+/* START */
 
-drawThumbnail();
+draw();
 
 </script>
 
